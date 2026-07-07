@@ -118,10 +118,14 @@
 
 ---
 
-## 기존 DIY 방식과의 관계
+## 기존 DIY 방식 (git 히스토리에 보존)
 
-초기엔 자작 안드로이드 SOCKS 서버 앱(`android/`) + USB(`adb forward`) + mihomo(`windows/client/`)로 구현했다(문서: [README](README.md)·[HANDOFF](HANDOFF.md)·[ROADMAP](ROADMAP.md)). 그 방식은:
-- **장점**: USB 전송이라 softap 누수 자체가 없고(가장 청정), 셀룰러 강제·상시구동이 코드로 보장됨
-- **단점**: 자작앱 유지보수 필요, 크롬 동시연결에서 느림, 세팅 복잡
+초기엔 자작 안드로이드 SOCKS 서버 앱 + USB(`adb forward`) + mihomo로 구현했다. USB 전송이라 softap 누수가 원천적으로 없는 **더 청정한 방식**이지만, 자작앱 유지보수·크롬 동시연결 느림·세팅 복잡이 단점이라, 더 간단한 Every Proxy 방식으로 주력을 전환하고 저장소를 이 매뉴얼 하나로 정리했다.
 
-Every Proxy 방식이 더 간단하고 충분히 잘 동작해 **주력을 전환**했다. 단, USB 방식은 **더 청정한 폴백**이므로 (특히 새 통신사에서 이 방식이 안 통할 경우 대비) `android/`·`windows/client/` 코드와 문서는 **보존**한다. 자세한 배경은 프로젝트 메모리 `every-proxy-pivot` 참조.
+DIY 방식 전체(android 앱 소스, windows/client mihomo, 설계·검증 문서)는 **git 히스토리 커밋 `44d9f1a`에 보존**돼 있다. 새 통신사에서 이 방식이 안 통해 폴백이 필요하면 아래로 복원:
+
+```bash
+git checkout 44d9f1a -- android windows README.md HANDOFF.md ROADMAP.md
+```
+
+배경·검증 결과는 프로젝트 메모리 `every-proxy-pivot` 참조.
