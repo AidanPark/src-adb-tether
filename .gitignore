@@ -4,3 +4,6 @@
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Claude Code local config (권한모드 등 — repo에 올리지 않음)
+.claude/
