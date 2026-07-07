@@ -1,0 +1,16 @@
+# Android build / IDE / machine-specific
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+.idea/
+*.iml
+*.apk
+
+# mihomo runtime state (regenerates)
+windows/client/cache.db
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini

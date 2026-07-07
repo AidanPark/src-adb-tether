@@ -1,0 +1,63 @@
+# adb-tether blacklist router (mihomo / clash.meta)
+#
+# 기본(default): PC의 모든 트래픽 -> 폰 셀룰러 (SOCKS5 127.0.0.1:1080, 재생성)
+# 예외(blacklist): exceptions.yaml 에 등록한 프로그램만 PC 기존 회선(Direct)
+#
+# ★ 예외 관리는 이 파일이 아니라 exceptions.yaml 을 편집 (편집 후 mihomo 재시작)
+#
+# 전제: 폰 adb-tether "시작" + USB + adb forward tcp:1080 tcp:1080
+# 실행: run.bat (관리자 권한 자동 요청)
+
+ipv6: true                 # 회선이 IPv6 우선이라 필수
+mode: rule
+log-level: info
+bind-address: "*"
+
+# TUN 이 시스템 전체 트래픽을 잡는다(= 블랙리스트의 전제)
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+
+# fake-ip: 프록시로 나갈 도메인은 폰이 셀룰러에서 해석 -> DNS 누수 없음
+dns:
+  enable: true
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  nameserver:                # Direct(예외) 트래픽/폴백용
+    - 1.1.1.1
+    - 8.8.8.8
+
+proxies:
+  - name: phone
+    type: socks5
+    server: 127.0.0.1
+    port: 1080
+    udp: false               # 폰 SOCKS 는 TCP CONNECT 만(M1). QUIC/UDP 는 TCP 폴백 또는 차단.
+
+# 예외 목록을 별도 파일에서 읽는다 -> exceptions.yaml 만 편집하면 됨
+rule-providers:
+  exceptions:
+    type: file
+    behavior: classical
+    path: ./exceptions.yaml
+
+rules:
+  # 예외(exceptions.yaml 에 등록된 프로세스) -> PC 기존 회선
+  - RULE-SET,exceptions,DIRECT
+
+  # 로컬/사설망은 항상 Direct(루프백·LAN 이 폰으로 새는 것 방지)
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR6,::1/128,DIRECT,no-resolve
+  - IP-CIDR6,fc00::/7,DIRECT,no-resolve
+  - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+
+  # 나머지 전부 -> 폰
+  - MATCH,phone
