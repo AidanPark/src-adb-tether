@@ -12,9 +12,12 @@ Proxifier 대체(= ROADMAP M4). 엔진은 mihomo(clash.meta), TUN + 프로세스
 | `mihomo.exe` / `wintun.dll` | 엔진 + TUN 드라이버 |
 
 ## 실행 / 종료
-1. 폰: adb-tether **"시작"** + USB 연결
-2. PC: **`run.bat` 더블클릭** → **UAC 허용** → 검은 창에 로그가 흐르면 실행 중
+1. 폰: **Every Proxy HTTP `:8080` ON** + USB 연결(USB 디버깅 ON)
+   - 자작 SOCKS5 앱(`android/`)을 쓰려면 `config.yaml` 의 socks5 블록으로 교체 + `run.bat` 포트를 1080으로
+2. PC: **Windows 수동 프록시 OFF** 확인 → **`run.bat` 더블클릭** → **UAC 허용** → 검은 창에 로그가 흐르면 실행 중
 3. 종료: 그 **검은 창을 닫기**(TUN 해제)
+
+전체 절차·검증법은 저장소 루트 `MANUAL.md` 참조.
 
 실행 중엔 그냥 평소처럼 프로그램을 쓰면 됨 — 기본은 폰 회선, 예외 목록 프로그램만 기존 회선.
 
@@ -46,4 +49,8 @@ curl.exe https://ifconfig.me/ip
 ## 상태
 - **Stage 0/1 완료(2026-07-03)**: 블랙리스트 라우팅 + 예외 파일 관리 실기기 검증됨.
   (기본→폰 `2001:2d8:...`, 예외 curl.exe→기존회선 `211.234.198.56` 확인.)
+- **폰쪽 서버를 Every Proxy(HTTP `:8080`)로 전환(2026-07-10)**: 자작앱 빌드 없이 즉시 구동.
+  `config.yaml` 에 자작 SOCKS5(`:1080`) 블록을 주석으로 보존.
+- **WSL 캡처 검증 완료(2026-07-10)**: TUN 가동 시 Windows·WSL 양쪽 모두 재생성 경로(`223.38.72.253`)로 확인.
+  raw였다면 테더 APN(`223.38.73.x`)이 나왔을 것 → 시스템 프록시 방식이 못 잡던 WSL 누수 해소.
 - **Stage 2(선택)**: 트레이 UI + 단일 exe(엔진 라이브러리 임베드, Go). 원할 때.
