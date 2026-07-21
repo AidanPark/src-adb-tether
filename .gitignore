@@ -7,3 +7,7 @@ desktop.ini
 
 # Claude Code local config (권한모드 등 — repo에 올리지 않음)
 .claude/
+
+# mihomo 런타임 산출물 (실행하면 생김 — 추적하지 않음)
+windows/client/cache.db
+windows/client/*.log
