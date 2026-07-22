@@ -9,6 +9,16 @@
 
 ---
 
+## 현재 상태 (2026-07-10)
+
+- **주력 방식**: USB + TUN. Windows·WSL 전 트래픽 미차감 실측 검증 완료. **이 구성으로 실사용 중.**
+- **폰쪽 서버**: **Every Proxy**(상용 앱, HTTP `:8080`) — 아직 여기에 의존.
+- **PC 실행**: `windows/client/run.bat` **하나로 통합** — 관리자 승격 + `adb forward` + USB 재연결 자동복구(백그라운드 keeper) + mihomo TUN. (구 `keep-forward.bat`은 흡수·삭제됨)
+- **권장 구성**: 폰 **핫스팟 OFF** — 테더링 인터페이스가 없어 누수가 구조적으로 불가능(fail-closed).
+- **예정(미완)**: 폰쪽을 자작 SOCKS5 앱(`android/`)으로 전환해 **Every Proxy 의존 제거**([§11](#11-every-proxy-의존-제거-자작앱-전환)). 빌드 툴체인 확인 완료(JDK 21·SDK 35·Gradle 8.10.2, `local.properties` 생성함) — **아직 빌드 전.**
+
+---
+
 ## 1. 원리
 
 두 층으로 나뉜다.
