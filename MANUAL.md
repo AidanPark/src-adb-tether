@@ -79,12 +79,12 @@
 | **폰** | USB 연결 + Every Proxy 실행 유지 (배터리 예외 걸려 있으면 사실상 방치) |
 | **PC** | `windows\client\run.bat` **더블클릭 → UAC 허용** → 검은 창에 로그 흐르면 가동 |
 
-`run.bat` 이 자동으로: 관리자 승격 → `adb forward tcp:8080 tcp:8080` → `mihomo.exe -d .` 실행.
+`run.bat` 하나가 자동으로: 관리자 승격 → `adb forward tcp:8080 tcp:8080` → **USB 재연결 자동복구 keeper(백그라운드)** → `mihomo.exe -d .` 실행.
 
-**USB 재연결 자동복구 (선택)**: USB를 뽑으면 `adb forward`가 끊기고 재연결해도 자동으로 안 살아난다(mihomo·Every Proxy는 멀쩡). `windows\client\keep-forward.bat` 을 **mihomo와 나란히 띄워두면**, 폰을 다시 꽂는 순간 몇 초 안에 forward를 재설정해 인터넷이 자동 재개된다. (관리자 불필요. `wait-for-device`로 폰이 돌아올 때까지 대기 후 재적용)
-- 수동으로 즉시 복구하려면: `adb forward tcp:8080 tcp:8080` 한 줄만 다시 실행(⚠️ `run.bat` 재실행 금지 — 두 번째 mihomo가 TUN 충돌).
+**USB 재연결 자동복구 (내장)**: USB를 뽑으면 `adb forward`가 끊기지만(mihomo·Every Proxy는 멀쩡), `run.bat`이 백그라운드에서 forward를 유지하므로 폰을 다시 꽂으면 **몇 초 안에 인터넷이 자동 재개**된다. 별도 창·별도 파일 없이 `run.bat` 하나로 끝. keeper는 mihomo가 종료되면 자동으로 같이 종료된다.
+- 혹시 수동으로 즉시 복구가 필요하면: `adb forward tcp:8080 tcp:8080` 한 줄만 실행(⚠️ `run.bat` 재실행 금지 — 두 번째 mihomo가 TUN 충돌).
 
-**종료**: `run.bat` **검은 창을 닫으면** TUN 경로가 해제되고 즉시 원복된다. (keep-forward 창도 닫으면 됨)
+**종료**: `run.bat` **검은 창을 닫으면** TUN 경로가 해제되고 즉시 원복된다.
 
 ---
 
