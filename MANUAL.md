@@ -15,7 +15,7 @@
 - **폰쪽 서버**: **Every Proxy**(상용 앱, HTTP `:8080`) — 아직 여기에 의존.
 - **PC 실행**: `windows/client/run.bat` **하나로 통합** — 관리자 승격 + `adb forward` + USB 재연결 자동복구(백그라운드 keeper) + mihomo TUN. (구 `keep-forward.bat`은 흡수·삭제됨)
 - **권장 구성**: 폰 **핫스팟 OFF** — 테더링 인터페이스가 없어 누수가 구조적으로 불가능(fail-closed).
-- **예정(미완)**: 폰쪽을 자작 SOCKS5 앱(`android/`)으로 전환해 **Every Proxy 의존 제거**([§11](#11-every-proxy-의존-제거-자작앱-전환)). 빌드 툴체인 확인 완료(JDK 21·SDK 35·Gradle 8.10.2, `local.properties` 생성함) — **아직 빌드 전.**
+- **자작앱 전환은 보류(2026-07-10 결정)**: 현 Every Proxy 구성으로 **실사용 확정**. 자작 SOCKS5 앱(`android/`) 전환은 성능·미차감상 이득이 없어(부팅 자동시작·무광고 정도만 차이, TCP 한계는 동일) **선택 사항**으로 남긴다([§11](#11-every-proxy-의존-제거-자작앱-전환)). 원할 때 바로 빌드할 수 있게 툴체인은 확인해둠(JDK 21·SDK 35·Gradle 8.10.2).
 
 ---
 
